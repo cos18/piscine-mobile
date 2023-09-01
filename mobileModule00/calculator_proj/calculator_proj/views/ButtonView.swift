@@ -44,11 +44,12 @@ struct ButtonView: View {
             rawInput = "0"
             return
         }
-        let lastChar = rawInput[rawInput.index(before: rawInput.endIndex)]
+        let lastChar = rawInput.last!
         if ((lastChar == "=" && (Character(value).isNumber || value == ".")) || (rawInput == "0")) {
             rawInput = ""
         } else if (lastChar == "=" && value != "C" && value != "AC") {
-            // set result with calculated value
+            let result = calRawInput(rawInput: rawInput)
+            rawInput = result.isInfinite ? "" : String()
         }
         switch value {
         case "C":
@@ -59,17 +60,18 @@ struct ButtonView: View {
             rawInput += value
         case "+", "×", "/":
             if (lastChar == "-") { rawInput.removeLast() }
-            if (rawInput[rawInput.index(before: rawInput.endIndex)] == "+" ||
-                rawInput[rawInput.index(before: rawInput.endIndex)] == "×" ||
-                rawInput[rawInput.index(before: rawInput.endIndex)] == "/") {
+            if (rawInput.isEmpty) { rawInput = "0" }
+            else if (rawInput.last! == "+" ||
+                rawInput.last! == "×" ||
+                rawInput.last! == "/") {
                 rawInput.removeLast()
             }
             rawInput += value
         case "=":
-            while (rawInput.isEmpty == false &&
-                   rawInput[rawInput.index(before: rawInput.endIndex)].isNumber == false) {
+            while (rawInput.isEmpty == false && rawInput.last!.isNumber == false) {
                 rawInput.removeLast()
             }
+            if (rawInput.isEmpty) { rawInput = "0" }
             rawInput += value
         case "0", "00":
             if (rawInput == "0") {return}

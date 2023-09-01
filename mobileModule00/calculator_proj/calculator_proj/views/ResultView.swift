@@ -20,7 +20,7 @@ struct ResultView: View {
             }
             HStack {
                 Spacer()
-                Text("\(calRawInput(rawInput: rawInput))")
+                Text("\(calFormatRawInput(rawInput: rawInput))")
                     .font(.title)
             }
         }

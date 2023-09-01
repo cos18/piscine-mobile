@@ -7,6 +7,55 @@
 
 import Foundation
 
+func calFormatRawInput(rawInput: String) -> String {
+    let result = calRawInput(rawInput: rawInput)
+    if (result.isInfinite) { return "DividedByZero" }
+    if (Double(Int(result)) == result) { return String(Int(result)) }
+    return String(result)
+}
+
 func calRawInput(rawInput: String) -> Double {
-    return 2/3
+    
+    var numberArray: [Double] = []
+    var operatorArray: [Character] = []
+    let operatorCharSet = CharacterSet(charactersIn: "+-×/=")
+    
+    // Split String with operators
+    var numberString = ""
+    for r in rawInput {
+        if (!numberString.isEmpty && CharacterSet(charactersIn: String(r)).isSubset(of: operatorCharSet)) {
+            numberArray.append(Double(numberString) ?? 0)
+            operatorArray.append(r)
+            numberString = ""
+        } else {numberString += String(r)}
+    }
+    if (!numberString.isEmpty) { numberArray.append(Double(numberString) ?? 0) }
+    
+    if (numberArray.count == operatorArray.count) {
+        operatorArray.removeLast()
+    }
+    var phaseNumberArray = [numberArray[0]]
+    for (idx, op) in operatorArray.enumerated() {
+        if (op == "×" || op == "/") {
+            var lastVal = phaseNumberArray.last!
+            if (op == "×") { lastVal *= numberArray[idx + 1] }
+            else { lastVal /= numberArray[idx + 1] }
+            phaseNumberArray.removeLast()
+            phaseNumberArray.append(lastVal)
+        } else {
+            phaseNumberArray.append(numberArray[idx + 1])
+        }
+    }
+    var opIdx = 0, result: Double?
+    for num in phaseNumberArray {
+        if (result == nil) {
+            result = num
+            continue
+        }
+        while (opIdx < operatorArray.count && (operatorArray[opIdx] == "×" || operatorArray[opIdx] == "/")) { opIdx += 1 }
+        if (operatorArray[opIdx] == "+") { result! += num }
+        else { result! -= num }
+        opIdx += 1
+    }
+    return result!
 }
