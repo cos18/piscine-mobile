@@ -8,12 +8,15 @@
 import Foundation
 
 func calFormatRawInput(rawInput: String) -> String {
-    if (rawInput.count > 50) { return "FormulaTooLong" }
+    if (rawInput.count > 70) { return "FormulaTooLong" }
     let result = calRawInput(rawInput: rawInput)
-    if (result > Double((1 << 31) - 1)) { return "ValueOverflow" }
-    if (result < Double(-(1 << 31))) { return "ValueOverflow" }
+    if (floor(result) == result) {
+        if (result > Double((1 << 31) - 1) || result < Double(-(1 << 31))) {
+            return String(result)
+        }
+        return String(Int(result))
+    }
     if (result.isInfinite) { return "DividedByZero" }
-    if (Double(Int(result)) == result) { return String(Int(result)) }
     return String(result)
 }
 

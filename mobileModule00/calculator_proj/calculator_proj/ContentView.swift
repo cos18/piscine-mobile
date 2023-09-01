@@ -15,7 +15,7 @@ struct ContentView: View {
             GeometryReader { metrics in
                 VStack {
                     ResultView(rawInput: rawInput)
-                    .frame(height: metrics.size.height * 0.25, alignment: .topLeading)
+                    .frame(height: metrics.size.height * 0.35, alignment: .topLeading)
                     ButtonView(rawInput: $rawInput)
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
                     .background(Color.black)
