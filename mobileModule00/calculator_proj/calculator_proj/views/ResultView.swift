@@ -17,6 +17,8 @@ struct ResultView: View {
                 Spacer()
                 Text(rawInput)
                     .font(.title)
+                    .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                    .multilineTextAlignment(.trailing)
             }
             HStack {
                 Spacer()
@@ -29,5 +31,6 @@ struct ResultView: View {
 }
 
 #Preview {
-    ResultView(rawInput: "1+2")
+    ResultView(rawInput: "1+222222222")
 }
+
