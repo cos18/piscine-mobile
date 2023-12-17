@@ -1,8 +1,8 @@
 //
 //  BottombarItem.swift
-//  weatherApp_proj
+//  weatherAppV2_proj
 //
-//  Created by Sungwoo Park on 9/6/23.
+//  Created by Sungwoo Park on 9/11/23.
 //
 
 import Foundation
@@ -23,14 +23,14 @@ enum BottombarItem: String, CaseIterable {
         case .today:
             return .weekly
         case .weekly:
-            return .currently
+            return .weekly
         }
     }
     
     var prev: BottombarItem {
         switch self {
         case .currently:
-            return .weekly
+            return .currently
         case .today:
             return .currently
         case .weekly:

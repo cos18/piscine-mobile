@@ -1,39 +1,26 @@
 //
 //  WeatherView.swift
-//  weatherApp_proj
+//  weatherAppV2_proj
 //
-//  Created by Sungwoo Park on 9/7/23.
+//  Created by Sungwoo Park on 9/11/23.
 //
 
 import SwiftUI
 
 struct WeatherView: View {
-    @State var searchText = ""
     @State var selectedBottomItem: BottombarItem = .currently
     @State var submitText = ""
     
     let minDragTranslationForSwipe: CGFloat = 50
     
     var body: some View {
+        TopbarView(submitText: $submitText)
+            .padding(20)
         TabView (selection: $selectedBottomItem) {
             ForEach(BottombarItem.allCases, id: \.rawValue) { item in
                 NavigationStack {
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                        TextField("Location", text: $searchText)
-                            .onSubmit {
-                                submitText = searchText
-                                searchText = ""
-                            }
-                        Button(action: {
-                            submitText = "Geolocation"
-                        }) {
-                            Image(systemName: "location.fill")
-                        }
-                    }
-                    .padding(20)
                     VStack {
-                        Text(selectedBottomItem.name)
+                        Text(item.name)
                             .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                         Text(submitText)
                     }
